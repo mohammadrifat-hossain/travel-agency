@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 
 export default function Header() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "#" },
@@ -16,11 +30,19 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 z-50 w-full py-3 sm:py-4 transition-all duration-300 flex items-center">
+      <header
+        className={`fixed top-0 left-0 z-50 w-full py-3 sm:py-4 transition-all duration-300 flex items-center ${isScrolled
+            ? "bg-white/95 backdrop-blur-md text-black"
+            : "bg-transparent text-white"
+          }`}
+      >
         <div className="w-full max-w-[1600px] mx-auto flex items-center justify-between px-6 sm:px-10 lg:px-14">
-          
+
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-xl sm:text-2xl font-semibold text-white tracking-widest uppercase font-serif">
+            <span
+              className={`text-xl sm:text-2xl font-semibold tracking-widest uppercase font-serif transition-colors duration-300 ${isScrolled ? "text-black" : "text-white"
+                }`}
+            >
               Travel Agency
             </span>
           </Link>
@@ -30,7 +52,10 @@ export default function Header() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-semibold text-white/90 hover:text-primary transition-colors"
+                className={`text-sm font-semibold transition-colors duration-300 ${isScrolled
+                    ? "text-black/80 hover:text-black font-semibold"
+                    : "text-white/90 hover:text-primary"
+                  }`}
               >
                 {link.name}
               </Link>
@@ -47,7 +72,8 @@ export default function Header() {
           <button
             onClick={() => setIsMobileOpen(true)}
             aria-label="Open mobile menu"
-            className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+            className={`md:hidden p-2 rounded-lg transition-colors cursor-pointer ${isScrolled ? "text-black hover:bg-black/5" : "text-white hover:bg-white/10"
+              }`}
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -63,9 +89,8 @@ export default function Header() {
       )}
 
       <aside
-        className={`fixed top-0 right-0 z-50 h-full w-[280px] sm:w-[320px] bg-neutral-950/95 border-l border-white/10 backdrop-blur-xl p-6 flex flex-col justify-between md:hidden transform transition-transform duration-300 ease-in-out ${
-          isMobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 z-50 h-full w-[280px] sm:w-[320px] bg-neutral-950/95 border-l border-white/10 backdrop-blur-xl p-6 flex flex-col justify-between md:hidden transform transition-transform duration-300 ease-in-out ${isMobileOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex flex-col">
           <div className="flex items-center justify-between pb-6 border-b border-white/10">
