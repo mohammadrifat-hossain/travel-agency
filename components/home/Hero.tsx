@@ -1,10 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Reveal from "../Reveal";
 
 export default function Hero() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <main className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden font-sans select-none bg-black">
-      <div className="absolute inset-0 z-0">
+      <div
+        className="absolute -inset-y-24 inset-x-0 z-0 pointer-events-none"
+        style={{
+          transform: `translate3d(0, ${scrollY * 0.4}px, 0)`,
+          willChange: "transform",
+        }}
+      >
         <Image
           src="/assets/hero-bg.jpg"
           alt="Resort Pool"
@@ -17,7 +37,7 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-[1600px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-12 flex flex-col justify-center gap-4 sm:gap-6 md:gap-8 min-h-screen">
         <div className="w-fit mx-auto flex flex-col items-center">
-          <div className="w-full text-left">
+          <Reveal direction="up" delay={0.1} className="w-full text-left">
             <h1
               className="text-[10vw] lg:text-[120px] xl:text-[136px] 2xl:text-[144px] font-semibold uppercase tracking-tight leading-[0.82] text-transparent"
               style={{
@@ -26,41 +46,51 @@ export default function Hero() {
             >
               Discover Where
             </h1>
+          </Reveal>
+
+          <div className="relative z-30 w-full flex items-center gap-4 sm:gap-6 md:gap-8 -mt-6 sm:-mt-10 md:-mt-16 lg:-mt-22 xl:-mt-26">
+            <Reveal direction="left" delay={0.15} className="z-30 relative">
+              <div
+                className="relative z-30 w-[32vw] sm:w-[30vw] md:w-[28vw] max-w-[450px] h-[44vh] pointer-events-none flex-shrink-0 flex items-center"
+                style={{
+                  transform: `translate3d(${-scrollY * 0.7}px, 0, 0) scale(${1 + scrollY * 0.0012})`,
+                  willChange: "transform",
+                }}
+              >
+                <Image
+                  src="/assets/plane3.png"
+                  alt="Airplane illustration"
+                  width={520}
+                  height={310}
+                  priority
+                  className="w-full h-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)] scale-[1.7]"
+                />
+              </div>
+            </Reveal>
+
+            <Reveal direction="up" delay={0.25} className="z-10">
+              <h2 className="text-[10vw] lg:text-[120px] xl:text-[136px] 2xl:text-[144px] font-semibold uppercase tracking-tight leading-[0.82] text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.5)] z-10 whitespace-nowrap">
+                You Want
+              </h2>
+            </Reveal>
           </div>
 
-          <div className="relative w-full flex items-center gap-4 sm:gap-6 md:gap-8 -mt-6 sm:-mt-10 md:-mt-16 lg:-mt-22 xl:-mt-26">
-            <div className="relative z-20 w-[32vw] sm:w-[30vw] md:w-[28vw] max-w-[450px] h-[44vh] pointer-events-none flex-shrink-0 flex items-center">
-              <Image
-                src="/assets/plane3.png"
-                alt="Airplane illustration"
-                width={520}
-                height={310}
-                priority
-                className="w-full h-auto drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)] scale-[1.7]"
-              />
-            </div>
-
-            <h2 className="text-[10vw] lg:text-[120px] xl:text-[136px] 2xl:text-[144px] font-semibold uppercase tracking-tight leading-[0.82] text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.5)] z-10 whitespace-nowrap">
-              You Want
-            </h2>
-          </div>
-
-          <div className="relative w-full flex flex-col md:flex-row md:items-center -mt-6 sm:-mt-10 md:-mt-16 lg:-mt-22 xl:-mt-26 gap-4 sm:gap-8 md:gap-10">
-            <div className="z-10">
+          <div className="relative z-0 w-full flex flex-col md:flex-row md:items-center -mt-6 sm:-mt-10 md:-mt-16 lg:-mt-22 xl:-mt-26 gap-4 sm:gap-8 md:gap-10">
+            <Reveal direction="up" delay={0.4} className="z-0">
               <h2 className="text-[10vw] lg:text-[120px] xl:text-[136px] 2xl:text-[144px] font-semibold uppercase tracking-tight leading-[0.82] text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.5)] whitespace-nowrap">
                 Go Next
               </h2>
-            </div>
+            </Reveal>
 
-            <div className="max-w-[340px] sm:max-w-[380px] md:max-w-[410px] z-10 md:text-left">
+            <Reveal direction="up" delay={0.55} className="max-w-[340px] sm:max-w-[380px] md:max-w-[410px] z-10 md:text-left">
               <p className="text-white text-xs sm:text-sm md:text-[16px] lg:text-[20px] font-normal leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                 Travelers is one of the most popular Travel agency for those who want to explore the world and try to make adventure.
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
 
-        <div className="w-full max-w-[1100px] mx-auto mt-10 md:mt-20 mb-2">
+        <Reveal direction="up" delay={0.7} className="w-full max-w-[1100px] mx-auto mt-10 md:mt-20 mb-2">
           <div className="w-full bg-primary rounded-[32px] sm:rounded-[40px] px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-6 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] flex flex-col lg:flex-row items-center justify-between gap-5 lg:gap-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-0 flex-1 w-full text-black">
               <div className="flex flex-col lg:pr-6 lg:border-r border-black/20">
@@ -169,7 +199,7 @@ export default function Hero() {
               </span>
             </button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </main>
   );

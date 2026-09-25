@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import Reveal from "./Reveal";
 
 interface SectionProps {
   children: React.ReactNode;
@@ -6,6 +9,7 @@ interface SectionProps {
   className?: string;
   containerClassName?: string;
   bg?: "white" | "black" | "gray" | "transparent" | string;
+  overflow?: string;
 }
 
 export default function Section({
@@ -14,8 +18,8 @@ export default function Section({
   className = "",
   containerClassName = "",
   bg = "white",
+  overflow = "overflow-hidden",
 }: SectionProps) {
-  // Standardized background style classes
   const bgStyles =
     bg === "white"
       ? "bg-white text-black"
@@ -30,7 +34,7 @@ export default function Section({
   return (
     <section
       id={id}
-      className={`w-full relative overflow-hidden py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-16 ${bgStyles} ${className}`}
+      className={`w-full relative ${overflow} py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-12 lg:px-16 ${bgStyles} ${className}`}
     >
       <div className={`max-w-[1500px] mx-auto relative z-10 ${containerClassName}`}>
         {children}

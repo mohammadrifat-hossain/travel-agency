@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Section from "../Section";
 import SectionTitle from "../SectionTitle";
+import Reveal from "../Reveal";
 
 interface ActivityItem {
   id: string;
@@ -37,19 +38,18 @@ const activities: ActivityItem[] = [
 export default function LifelongMemories() {
   return (
     <Section bg="white" containerClassName="max-w-[1400px]">
-      {/* Subtle background map dot pattern */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]" />
 
-      {/* Section Header */}
       <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
-        <SectionTitle className="!mb-6">
-          Lifelong Memories Just
-          <br />
-          A Few Days Away
-        </SectionTitle>
+        <Reveal direction="up" delay={0.1}>
+          <SectionTitle className="!mb-6">
+            Lifelong Memories Just
+            <br />
+            A Few Days Away
+          </SectionTitle>
+        </Reveal>
 
-        {/* Action buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
+        <Reveal direction="up" delay={0.25} className="flex flex-wrap items-center justify-center gap-5 sm:gap-6">
           <button className="bg-black text-white hover:bg-black/85 transition-all duration-300 px-7 py-3 rounded-full text-xs font-bold tracking-widest uppercase shadow-md hover:scale-105 active:scale-95 cursor-pointer">
             JOIN WITH US
           </button>
@@ -67,13 +67,11 @@ export default function LifelongMemories() {
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </button>
-        </div>
+        </Reveal>
       </div>
 
-      {/* Main Grid Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mt-4 sm:mt-8">
-        {/* Left Column: Suitcases Luggage (no humans) */}
-        <div className="lg:col-span-6 relative flex justify-center">
+        <Reveal direction="right" delay={0.3} className="lg:col-span-6 relative flex justify-center">
           <div className="relative w-full max-w-[520px] aspect-square rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-lg bg-gray-50 border border-black/5">
             <Image
               src="/assets/luggages.jpg"
@@ -83,23 +81,22 @@ export default function LifelongMemories() {
               className="object-cover object-center transition-transform duration-500 hover:scale-105"
             />
           </div>
-        </div>
+        </Reveal>
 
-        {/* Right Column: Activity List */}
         <div className="lg:col-span-6 flex flex-col gap-6 sm:gap-8 pl-0 lg:pl-2">
-          {/* "What Excites You Most?" Header label in 1 single line */}
-          <div className="flex items-center gap-4 w-full">
+          <Reveal direction="left" delay={0.35} className="flex items-center gap-4 w-full">
             <span className="text-base sm:text-lg font-semibold text-black tracking-tight whitespace-nowrap">
               What Excites You Most?
             </span>
             <div className="h-[1.5px] bg-black/25 flex-1 min-w-[20px]" />
-          </div>
+          </Reveal>
 
-          {/* List of Activities */}
           <div className="flex flex-col gap-6 sm:gap-7">
-            {activities.map((item) => (
-              <div
+            {activities.map((item, index) => (
+              <Reveal
                 key={item.id}
+                direction="left"
+                delay={0.4 + index * 0.15}
                 className="flex items-center gap-4 sm:gap-6 group cursor-pointer"
               >
                 <span className="text-xs sm:text-sm font-semibold text-black/70 w-6 flex-shrink-0">
@@ -123,7 +120,7 @@ export default function LifelongMemories() {
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
